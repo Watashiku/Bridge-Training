@@ -122,7 +122,7 @@ def build_database(page_texts):
 
 if __name__ == "__main__":
     final_database = {}
-    output_path = os.path.join("json", "bridge_deals.json")
+    output_path = os.path.join("json", "deals.json")
     for pdf in os.listdir("pdfs"):
         if pdf.endswith(".pdf"):
             try:

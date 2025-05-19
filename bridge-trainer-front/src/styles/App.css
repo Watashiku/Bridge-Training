@@ -1,0 +1,32 @@
+.app-container {
+    text-align: center;
+}
+
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+
+.menu-title {
+    font-size: 2em;
+    margin-bottom: 1em;
+    color: #333;
+}
+
+.menu-button {
+    padding: 1em 2em;
+    font-size: 1.2em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 0.5em;
+}
+
+.menu-button:hover {
+    background-color: #45a049;
+}

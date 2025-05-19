@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./bridge-trainer-back
+    ports:
+      - "8080:8080"
+    container_name: bridge-back
+
+  frontend:
+    build:
+      context: ./bridge-trainer-front
+    ports:
+      - "5173:80"
+    container_name: bridge-front
+    depends_on:
+      - backend

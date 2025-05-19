@@ -311,7 +311,7 @@ def charger_base_de_donnees(filepath):
         return {}
 
 if __name__ == "__main__":
-    filepath = "json/bridge_deals.json"
+    filepath = "json/deals.json"
     if filepath:
         database = charger_base_de_donnees(filepath)
         if database:
