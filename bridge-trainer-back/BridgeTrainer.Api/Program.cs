@@ -1,33 +1,72 @@
-using BridgeTrainer.Api.Services;
+using BridgeTrainer.Api.Application.Interfaces;
+using BridgeTrainer.Api.Application.Services;
+using BridgeTrainer.Api.Infrastructure.Api.Mappers;
+using BridgeTrainer.Api.Infrastructure.Data;
+using BridgeTrainer.Api.Infrastructure.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy.WithOrigins("http://localhost:5173")
-                                .AllowAnyHeader()
-                                .AllowAnyMethod();
-                      });
+    options.AddPolicy("DevCors", policy => 
+        policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
 });
+
+// Services
+builder.Services.AddScoped<IBiddingTrainingService, BiddingTrainingService>();
+builder.Services.AddScoped<IDeclaringPlayTrainingService, DeclaringPlayTrainingService>();
+builder.Services.AddScoped<ITrainingContextProvider, TrainingContextProvider>();
+
+// Repositories
+builder.Services.AddScoped<IDealRepository, JsonDealRepository>();
+builder.Services.AddScoped<IPositionGenerator, RandomPositionGenerator>();
+
+// Api
+builder.Services.AddScoped<IBiddingApiMapper, BiddingApiMapper>();
+builder.Services.AddScoped<ILeadApiMapper, LeadApiMapper>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<DonneService>();
-
 var app = builder.Build();
 
-app.UseCors(MyAllowSpecificOrigins);
+app.UseCors("DevCors");
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseAuthorization();
 app.MapControllers();
 app.Run();
+
+/*
+ /MyApp
+  /Controllers
+    UserController.cs
+
+  /Models
+    CreateUserRequest.cs
+    UserResponse.cs
+
+  /Services
+    /Interfaces
+      IUserService.cs
+    UserService.cs
+    OtherService.cs
+
+  /Infrastructure
+    /Repositories
+      IUserRepository.cs
+      UserRepository.cs
+
+  /Tests
+    /Services
+      UserServiceTests.cs
+
+  Program.cs
+
+ 
+ */

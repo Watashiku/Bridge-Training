@@ -1,23 +1,22 @@
 export type BiddingRequest = {
   Id: string;
-  Joueur: string;
-  EncheresDejaFaites: string[];
+  BidNumber: number;
   Proposition: string;
 };
 
 export type BiddingResponse = {
   correct: boolean;
-  suivantes?: string[];
-  fin: boolean;
+  nextBids?: string[];
+  sequenceEnded: boolean;
   message?: string;
 };
 
 export type Donne = {
   id: string;
-  donneur: string;
-  joueur: string;
-  mainJoueur: string[];
-  encheresDejaFaites: string[];
+  dealer: string;
+  player: string;
+  playerHand: string[];
+  bidsUpToPlayer: string[];
 };
 
 export interface LeadResponse {

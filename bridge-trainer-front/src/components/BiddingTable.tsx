@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
-const joueurs = ['Nord', 'Est', 'Sud', 'Ouest'] as const;
+const joueurs = ['North', 'East', 'South', 'West'] as const;
 
 function getJoueurIndex(joueur: string) {
   return joueurs.indexOf(joueur);
 }
 
 function isEnchereValide(e: string): boolean {
-  return e === '?' || /^[1-7](SA|♠|♥|♦|♣)$/.test(e);
+  return e === '?' || /^[1-7](NT|S|H|D|C)$/.test(e);
 }
 
 function getDernierContrat(encheres: string[]) {

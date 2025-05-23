@@ -2,8 +2,9 @@
 
 ## Comment l'utiliser
 Assurez-vous d'avoir docker installé [Installer Docker](https://docs.docker.com/engine/install/)
+Assurez-vous d'avoir git installé [Installer Git]([https://docs.docker.com/engine/install/](https://github.com/git-guides/install-git))
 Depuis le folder dans lequel vous voulez récupérer le projet :
-```sh
+```bash
 git clone https://github.com/Watashiku/Bridge-Training.git
 cd Bridge-Training
 docker compose up

@@ -50,8 +50,9 @@ def create_text_blocks(page_text):
 
 def parse_blocs(blocs):
     return {
-        "Donne N°": int(blocs["1"][0].split()[1]),
+        "DonneNo": int(blocs["1"][0].split()[1]),
         "Donneur": blocs["2"][0].split()[0],
+        "Vulnerable": blocs["2"][0].split()[-2],
         "Encheres": parse_bids(blocs["3"], blocs["2"][0].split()[0]),
         "Cartes": parse_cards(blocs["4"]),
         "Entame": parse_entame(blocs["5"][0]),
@@ -112,7 +113,7 @@ def build_database(page_texts):
                     raise ValueError(blocs.keys())
                 continue
             deal = parse_blocs(blocs)
-            if deal and "Donne N°" in deal: 
+            if deal and "DonneNo" in deal: 
                 database.append(deal)
             else:
                 raise ValueError(deal.keys())
@@ -132,5 +133,6 @@ if __name__ == "__main__":
                 final_database[title] = build_database(page_texts)
             except Exception as e:
                 print(f"Error processing {pdf}: {e}")
-    with open(output_path, "w", encoding="utf-8") as outfile:
-        json.dump(final_database, outfile, ensure_ascii=False, indent=2)
+    print(final_database)
+    # with open(output_path, "w", encoding="utf-8") as outfile:
+    #     json.dump(final_database, outfile, ensure_ascii=False, indent=2)

@@ -1,23 +1,23 @@
 import React from 'react';
 
 const ordreEncheres = [
-    'Passe',
-    '1♣', '1♦', '1♥', '1♠', '1SA',
-    '2♣', '2♦', '2♥', '2♠', '2SA',
-    '3♣', '3♦', '3♥', '3♠', '3SA',
-    '4♣', '4♦', '4♥', '4♠', '4SA',
-    '5♣', '5♦', '5♥', '5♠', '5SA',
-    '6♣', '6♦', '6♥', '6♠', '6SA',
-    '7♣', '7♦', '7♥', '7♠', '7SA',
-    'Contre',
-    'Surcontre'
+    'Pass',
+    '1C', '1D', '1H', '1S', '1NT',
+    '2C', '2D', '2H', '2S', '2NT',
+    '3C', '3D', '3H', '3S', '3NT',
+    '4C', '4D', '4H', '4S', '4NT',
+    '5C', '5D', '5H', '5S', '5NT',
+    '6C', '6D', '6H', '6S', '6NT',
+    '7C', '7D', '7H', '7S', '7NT',
+    'X',
+    'XX'
 ];
 
 function enchereEstSuperieure(a: string, b: string): boolean {
-    if (a === 'Passe') return false;
-    if (b === 'Passe') return true;
-    if (a === 'Contre' || a === 'Surcontre') return false;
-    if (b === 'Contre' || b === 'Surcontre') return true;
+    if (a === 'Pass') return false;
+    if (b === 'Pass') return true;
+    if (a === 'X' || a === 'XX') return false;
+    if (b === 'X' || b === 'XX') return true;
     return ordreEncheres.indexOf(a) > ordreEncheres.indexOf(b);
 }
 
@@ -28,12 +28,12 @@ type Props = {
 
 const BiddingBox: React.FC<Props> = ({ seuil, onSelect }) => {
     const encheresValides = ordreEncheres.filter(e => {
-        if (e === 'Passe' || e === 'Contre' || e === 'Surcontre') return true;
+        if (e === 'Pass' || e === 'X' || e === 'XX') return true;
         return enchereEstSuperieure(e, seuil);
     });
 
     const getCouleur = (enchere: string) => {
-        if (enchere.length > 1 && ['♣', '♦', '♥', '♠'].includes(enchere.charAt(1))) {
+        if (enchere.length > 1 && ['C', 'D', 'H', 'S', 'NT'].includes(enchere.charAt(1))) {
             return enchere.charAt(1);
         }
         return null;
@@ -74,10 +74,10 @@ const BiddingBox: React.FC<Props> = ({ seuil, onSelect }) => {
 
                         if (couleur) {
                             switch (couleur) {
-                                case '♣': bgColor = '#f0fff0'; textColor = 'black'; break;
-                                case '♦': bgColor = '#fff0f0'; textColor = 'red'; break;
-                                case '♥': bgColor = '#fff0f0'; textColor = 'red'; break;
-                                case '♠': bgColor = '#f0f0f0'; textColor = 'black'; break;
+                                case 'T': bgColor = '#f0fff0'; textColor = 'black'; break;
+                                case 'D': bgColor = '#fff0f0'; textColor = 'red'; break;
+                                case 'H': bgColor = '#fff0f0'; textColor = 'red'; break;
+                                case 'S': bgColor = '#f0f0f0'; textColor = 'black'; break;
                             }
                         }
 
@@ -119,20 +119,20 @@ const BiddingBox: React.FC<Props> = ({ seuil, onSelect }) => {
                     let bgColor = 'white';
                     let textColor = '#333';
 
-                    if (e === 'Passe') {
+                    if (e === 'Pass') {
                         bgColor = '#90ee90';
                         textColor = 'black';
-                    } else if (e === 'Contre') {
+                    } else if (e === 'X') {
                         bgColor = '#ffcccb';
                         textColor = 'red';
-                    } else if (e === 'Surcontre') {
+                    } else if (e === 'XX') {
                         bgColor = '#d3d3d3';
                         textColor = 'black';
                     }
 
                     let displayValue = e;
-                    if (e === 'Contre') displayValue = 'X';
-                    if (e === 'Surcontre') displayValue = 'XX';
+                    if (e === 'X') displayValue = 'X';
+                    if (e === 'XX') displayValue = 'XX';
 
                     return (
                         <button

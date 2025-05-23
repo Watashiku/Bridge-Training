@@ -1,4 +1,4 @@
-import { BiddingRequest, LeadResponse } from "../models/types";
+import { BiddingRequest, Donne, LeadResponse } from "../models/types";
 
 export async function fetchLead(): Promise<LeadResponse> {
   const res = await fetch('http://localhost:8080/api/exercice/lead');
@@ -16,7 +16,7 @@ export async function sendLead(id: string, carte: string): Promise<{ correct: bo
   return res.json();
 }
 
-export async function fetchBidding() {
+export async function fetchBidding(): Promise<Donne> {
   const res = await fetch('http://localhost:8080/api/exercice/bidding');
   if (!res.ok) throw new Error('Erreur API');
   return res.json();
