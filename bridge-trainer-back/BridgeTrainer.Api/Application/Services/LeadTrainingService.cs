@@ -5,19 +5,20 @@ using BridgeTrainer.Api.Application.Results;
 
 namespace BridgeTrainer.Api.Application.Services;
 
-public class DeclaringPlayTrainingService(ITrainingContextProvider exerciseContextProvider, IDealRepository dealRepository) : IDeclaringPlayTrainingService
+public class LeadTrainingService(ITrainingContextProvider exerciseContextProvider, IDealRepository dealRepository) : ILeadTrainingService
 {
     public LeadExerciseResult GetLeadExercise(LeadExerciseQuery query)
     {
         var exerciseContext = exerciseContextProvider.GetRandomExercise(new GetRandomExerciseQuery());
+        var player = exerciseContext.BiddingSequence.Leader();
 
         return new LeadExerciseResult(
-            exerciseContext.Player,
+            player,
             exerciseContext.Deal.Id,
-            exerciseContext.Deal.Bids,
+            exerciseContext.BiddingSequence.AllBids,
             exerciseContext.Deal.Dealer,
             exerciseContext.Deal.Vulnerability,
-            exerciseContext.Deal.GetHand(exerciseContext.Player));
+            exerciseContext.Deal.GetHand(player));
     }
 
     public SubmitLeadCardResult SubmitLeadCardForExercise(SubmitLeadCardCommand command)

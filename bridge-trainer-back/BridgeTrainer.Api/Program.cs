@@ -17,7 +17,7 @@ builder.Services.AddCors(options =>
 
 // Services
 builder.Services.AddScoped<IBiddingTrainingService, BiddingTrainingService>();
-builder.Services.AddScoped<IDeclaringPlayTrainingService, DeclaringPlayTrainingService>();
+builder.Services.AddScoped<ILeadTrainingService, LeadTrainingService>();
 builder.Services.AddScoped<ITrainingContextProvider, TrainingContextProvider>();
 
 // Repositories

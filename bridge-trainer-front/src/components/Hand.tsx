@@ -59,7 +59,7 @@ const Hand: React.FC<HandProps> = ({ cards, onCardClick }) => {
                         key={carte}
                         src={src}
                         alt={carte}
-                        onClick={() => onCardClick(carte)}
+                        onClick={() => onCardClick?.(carte)}
                         className="hand-card"
                         style={{
                             left: `${left}px`,

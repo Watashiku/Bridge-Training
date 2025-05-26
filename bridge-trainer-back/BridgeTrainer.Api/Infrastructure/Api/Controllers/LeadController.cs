@@ -9,7 +9,7 @@ namespace BridgeTrainer.Api.Infrastructure.Api.Controllers;
 
 [ApiController]
 [Route("api/exercice/lead")]
-public class LeadController(IDeclaringPlayTrainingService service, ILeadApiMapper mapper) : ControllerBase
+public class LeadController(ILeadTrainingService service, ILeadApiMapper mapper) : ControllerBase
 {
     [HttpGet]
     public IActionResult GetRandomLead()

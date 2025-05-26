@@ -10,17 +10,14 @@ public static class PositionExtensions
                (other == Position.East || other == Position.West);
     }
 
-    public static Position Next(this Position self)
+    public static Position Next(this Position self) => self switch
     {
-        return self switch
-        {
-            Position.North => Position.East,
-            Position.East => Position.South,
-            Position.South => Position.West,
-            Position.West => Position.North,
-            _ => throw new NotImplementedException(),
-        };
-    }
+        Position.North => Position.East,
+        Position.East => Position.South,
+        Position.South => Position.West,
+        Position.West => Position.North,
+        _ => throw new NotImplementedException(),
+    };
 
     public static int StepsUntil(this Position currentPosition, Position targetPosition)
     {

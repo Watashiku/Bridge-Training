@@ -34,6 +34,7 @@ export default function BridgeTable({
   donneur,
   joueurActuelNom,
   mainJoueurActuel = [],
+  onCardSelect,
   onBidSelect,
   currentBid,
   biddingEnded = false
@@ -43,16 +44,11 @@ export default function BridgeTable({
 
   const playerOrder = useMemo(() => {
     const playerIndex = joueurs.indexOf(joueurActuelNom);
-    // L'ordre N-E-S-O (sens horaire) signifie que si le joueur est au Sud (index 2) :
-    // Top (North) est (playerIndex + 2) % 4
-    // Right (West) est (playerIndex + 3) % 4 - car Ouest est à droite de Sud quand on regarde le tableau
-    // Bottom (South) est playerIndex
-    // Left (East) est (playerIndex + 1) % 4 - car Est est à gauche de Sud
     const orderedPlayers = [
-      joueurs[(playerIndex + 2) % 4], // Top (Opponent)
-      joueurs[(playerIndex + 3) % 4], // Right (Joueur suivant dans le sens horaire à partir du joueur actuel)
-      joueurs[playerIndex],           // Bottom (Current Player)
-      joueurs[(playerIndex + 1) % 4]  // Left (Joueur précédent dans le sens horaire à partir du joueur actuel)
+      joueurs[(playerIndex + 2) % 4],
+      joueurs[(playerIndex + 3) % 4],
+      joueurs[playerIndex],
+      joueurs[(playerIndex + 1) % 4]
     ];
     return {
       top: orderedPlayers[0],
@@ -108,7 +104,7 @@ export default function BridgeTable({
 
       {mainJoueurActuel.length > 0 && (
         <div className="player-hand-wrapper">
-          <Hand cards={mainJoueurActuel} onCardClick={() => {}}/>
+          <Hand cards={mainJoueurActuel} onCardClick={onCardSelect}/>
         </div>
       )}
     </div>

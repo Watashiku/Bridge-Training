@@ -26,29 +26,12 @@ public record BiddingSequence
         return new BiddingSequence(bids, dealer, player);
     }
 
-    public IEnumerable<Bid> BidsUpToPlayer()
-    {
-        var currentPlayer = Dealer;
-        foreach (var bid in FullSequence)
-        {
-            if (currentPlayer == Player)
-            {
-                break;
-            }
-
-            yield return bid;
-            currentPlayer = currentPlayer.Next();
-        }
-    }
-    public (bool, IEnumerable<Bid>) NFirstBids(int bidIndex) => (bidIndex >= FullSequence.Count - 1, FullSequence.Take(bidIndex + 1));
-
-    public bool IsValidBid(int bidIndex, Bid bid) => FullSequence[bidIndex] == bid;
-
     private static List<Bid> Normalize(IList<Bid> bids)
     {
         var bidsNormalized = bids.ToList();
         var consecutivePasses = 0;
-        foreach (var bid in bidsNormalized) {
+        foreach (var bid in bidsNormalized)
+        {
             if (bid == Bid.Pass)
             {
                 consecutivePasses++;
@@ -80,4 +63,49 @@ public record BiddingSequence
         }
         return biddingState.BiddingHasEnded;
     }
-};
+
+    public IEnumerable<Bid> BidsUpToPlayer()
+    {
+        var currentPlayer = Dealer;
+        foreach (var bid in FullSequence)
+        {
+            if (currentPlayer == Player)
+            {
+                break;
+            }
+
+            yield return bid;
+            currentPlayer = currentPlayer.Next();
+        }
+    }
+
+    public List<Bid> AllBids => FullSequence;
+    public (bool, IEnumerable<Bid>) NFirstBids(int bidIndex) => (bidIndex >= FullSequence.Count - 1, FullSequence.Take(bidIndex + 1));
+
+    public bool IsValidBid(int bidIndex, Bid bid) => FullSequence[bidIndex] == bid;
+
+    public Position Declarer()
+    {
+        Dictionary<BidSuit, Position>[] mem = [[], []];
+        var side = 1;
+        var declarer = Dealer;
+        var currentPlayer = Dealer;
+        foreach (var bid in FullSequence)
+        {
+            side = (side + 1) % 2;
+            if (bid is Bid.NormalBid normalBid)
+            {
+                if (!mem[side].ContainsKey(normalBid.Suit))
+                {
+                    mem[side][normalBid.Suit] = currentPlayer;
+                }
+                declarer = mem[side][normalBid.Suit];
+            }
+            side = (side + 1) % 2;
+            currentPlayer = currentPlayer.Next();
+        }
+        return declarer;
+    }
+
+    public Position Leader() => Declarer().Next();
+}

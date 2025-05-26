@@ -23,6 +23,16 @@ public class TrainingContextProvider(
         throw new InvalidOperationException("Could not find a valid exercise after maximum retries.");
     }
 
+    private ExerciseContext? TryGetRandomValidExercise()
+    {
+        var deal = dealRepository.GetRandom();
+        var player = positionGenerator.GetRandom();
+        var biddingSequence = BiddingSequence.From(deal.Bids, deal.Dealer, player);
+        return biddingSequence == null
+            ? null
+            : new ExerciseContext(deal, player, biddingSequence);
+    }
+
     public ExerciseContext GetSpecificExercise(GetSpecificExerciseQuery query)
     {
         var deal = dealRepository.GetById(query.DealId);
@@ -31,15 +41,5 @@ public class TrainingContextProvider(
             return new(deal, deal.Dealer, null!);
         }
         return new(deal, deal.Dealer, BiddingSequence.From(deal.Bids, deal.Dealer, query.Player.Value)!);
-    }
-
-    private ExerciseContext? TryGetRandomValidExercise()
-    {
-        var deal = dealRepository.GetRandom();
-        var player = positionGenerator.GetRandom();
-        var biddingSequence = BiddingSequence.From(deal.Bids, deal.Dealer, player);
-        return biddingSequence == null
-            ? null 
-            : new ExerciseContext(deal, player, biddingSequence);
     }
 }
