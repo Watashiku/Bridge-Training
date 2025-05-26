@@ -1,0 +1,48 @@
+.bid-box-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  max-width: 320px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.bid-button {
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+  outline: none;
+}
+
+.bid-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.bid-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.bid-button:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.bid-box-container .bid-button:nth-child(36) {
+  grid-column: 1 / span 1;
+}
+
+.bid-box-container .bid-button:nth-child(37) {
+  grid-column: 3 / span 1;
+}
+
+.bid-box-container .bid-button:nth-child(38) {
+  grid-column: 5 / span 1;
+}
+
+.bid-box-container .bid-button:nth-child(n + 36) {
+  margin-top: 5px;
+}

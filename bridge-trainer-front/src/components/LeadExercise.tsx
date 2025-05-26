@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchLead, sendLead, LeadResponse } from '../api/bridgeApi';
 import Hand from './Hand';
-import BiddingTable from './BiddingTable';
+import BidTable from './BidTable';
 
 export default function LeadExercise({onBackToMenu}: {onBackToMenu: () => void}) {
   const [donne, setDonne] = useState<LeadResponse | null>(null);
@@ -28,7 +28,7 @@ export default function LeadExercise({onBackToMenu}: {onBackToMenu: () => void})
     <div style={{maxWidth: 800, margin: 'auto'}}>
       <h2>Entame - Joueur: {donne.joueur} | Donneur: {donne.donneur}</h2>
       <h4>Enchères</h4>
-      <BiddingTable encheres={donne.encheres} donneur={donne.donneur} />
+      <BidTable encheres={donne.encheres} donneur={donne.donneur} />
       <Hand lignes={donne.mainJoueur} onCardClick={handleCardClick} />
       {resultat && (
         <div>

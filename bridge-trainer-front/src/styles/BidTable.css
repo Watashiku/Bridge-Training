@@ -1,0 +1,68 @@
+.bid-table-container {
+  margin-bottom: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.bid-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.bid-table-header {
+  background-color: #f0f0f0;
+  padding: 10px 4px;
+  text-align: center;
+  border-bottom: 2px solid #ccc;
+  font-weight: bold;
+  color: #555;
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
+
+.bid-table-header:first-child {
+  border-top-left-radius: 8px;
+}
+
+.bid-table-header:last-child {
+  border-top-right-radius: 8px;
+}
+
+.bid-table-cell {
+  border: 1px solid #eee;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+  height: 45px;
+  box-sizing: border-box;
+}
+
+.bid-table tbody tr:nth-child(odd) .bid-table-cell {
+  background-color: #ffffff;
+}
+
+.bid-table tbody tr:nth-child(even) .bid-table-cell {
+  background-color: #fcfcfc;
+}
+
+.final-contract {
+  margin-top: 12px;
+  padding: 10px;
+  background-color: #eaf7ed;
+  border-top: 1px solid #d1e7dd;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  font-size: 1.1em;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.final-contract strong {
+  color: #28a745;
+}

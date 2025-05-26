@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/Hand.css';
 
 const COULEURS = ['S', 'H', 'D', 'C'];
 const ORDRE_COULEURS: Record<string, number> = { 'S': 0, 'H': 1, 'D': 3, 'C': 2 };
@@ -14,23 +15,18 @@ const MAP_VALEUR: Record<string, string> = {
     '8': '8', '9': '9', '1': '10', 'J': 'jack', 'Q': 'queen',
     'K': 'king', 'A': 'ace'
 };
-const CARD_WIDTH = 60; 
-const CARD_SCALE = 3.5;
-const CARD_OVERLAP = CARD_WIDTH * CARD_SCALE * 0.2;
+const CARD_OVERLAP_FACTOR = 0.5; // Augmentation du chevauchement pour que les cartes soient plus proches
 
 const toCardFilename = (carte: string): string =>
     `/cards/${MAP_VALEUR[carte.slice(0, -1)]}${MAP_COULEUR[carte.slice(-1)]}.svg`;
 
 interface HandProps {
-    lignes: string[];
+    cards: string[];
     onCardClick: (carte: string) => void;
 }
 
-const Hand: React.FC<HandProps> = ({ lignes, onCardClick }) => {
-    const cartes = lignes.map(el => [el[0], el[el.length-1]]);
-
-     console.log('lignes', lignes);
-     console.log('cartes', cartes);
+const Hand: React.FC<HandProps> = ({ cards, onCardClick }) => {
+    const cartes = cards.map(el => [el[0], el[el.length-1]]);
 
     const total = cartes.length;
 
@@ -39,24 +35,24 @@ const Hand: React.FC<HandProps> = ({ lignes, onCardClick }) => {
             ? ORDRE_COULEURS[a[1]] - ORDRE_COULEURS[b[1]]
             : ORDRE_VALEURS.indexOf(a[0]) - ORDRE_VALEURS.indexOf(b[0])
     );
-     console.log('cartes', cartes);
 
-    const containerWidth = total * CARD_OVERLAP + CARD_WIDTH * CARD_SCALE;
-    const containerHeight = CARD_WIDTH * CARD_SCALE * 1.5;
+    // Estimation des dimensions des cartes en fonction du CSS
+    const cardBaseWidth = 100; // Largeur par défaut ajustée
+    const cardBaseHeight = 145; // Hauteur par défaut ajustée
+    const overlapAmount = cardBaseWidth * CARD_OVERLAP_FACTOR;
+
+    const containerWidth = (total > 0 ? (total - 1) * overlapAmount + cardBaseWidth : 0);
+    const visibleCardHeight = cardBaseHeight * 0.4; // Afficher environ 40% du haut de la carte
 
     return (
-        <div style={{
-            position: 'relative',
-            height: `${containerHeight}px`,
+        <div className="hand-container" style={{
             width: `${containerWidth}px`,
-            margin: 'auto',
-            marginBottom: 20,
+            height: `${visibleCardHeight}px`,
         }}>
             {cartes.map((el, idx) => {
                 const carte = `${el[0]}${el[1]}`;
                 const src = toCardFilename(carte);
-                const left = idx * CARD_OVERLAP;
-                const zIndex = idx;
+                const left = idx * overlapAmount;
 
                 return (
                     <img
@@ -64,14 +60,11 @@ const Hand: React.FC<HandProps> = ({ lignes, onCardClick }) => {
                         src={src}
                         alt={carte}
                         onClick={() => onCardClick(carte)}
+                        className="hand-card"
                         style={{
-                            position: 'absolute',
                             left: `${left}px`,
-                            bottom: '0px',
-                            width: `${CARD_WIDTH * CARD_SCALE}px`,
-                            cursor: 'pointer',
-                            zIndex,
-                            transition: 'transform 0.2s',
+                            zIndex: idx,
+                            bottom: `-${cardBaseHeight - visibleCardHeight}px`,
                         }}
                     />
                 );

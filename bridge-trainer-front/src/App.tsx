@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './styles/App.css';
-import BiddingExercise from './components/BiddingExercise';
+import BidExercise from './components/BidExercise';
 import LeadExercise from './components/LeadExercise';
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
     const renderExercise = () => {
         switch (exercise) {
             case 'bidding':
-                return <BiddingExercise onBackToMenu={() => setExercise('menu')} />;
+                return <BidExercise onBackToMenu={() => setExercise('menu')} />;
             case 'lead':
                 return <LeadExercise onBackToMenu={() => setExercise('menu')} />;
             case 'menu':

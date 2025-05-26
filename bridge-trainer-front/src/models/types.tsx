@@ -8,7 +8,6 @@ export type BiddingResponse = {
   correct: boolean;
   nextBids?: string[];
   sequenceEnded: boolean;
-  message?: string;
 };
 
 export type Donne = {
