@@ -66,3 +66,30 @@
 .final-contract strong {
   color: #28a745;
 }
+
+.bid-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.bid-table td {
+  padding: 5px 3px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  font-size: 0.95em;
+}
+
+.bid-table .bid-display {
+  display: inline-block;
+  padding: 3px 5px;
+  margin: 1px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  min-width: 45px;
+}
+
+.bid-table .bid-display.pass {
+  background-color: #f0f0f0;
+}

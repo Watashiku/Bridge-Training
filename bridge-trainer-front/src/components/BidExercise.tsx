@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Donne, BiddingRequest, BiddingResponse } from '../models/types';
+import { Donne, BiddingResponse } from '../models/types';
 import { fetchBidding, postBidding } from '../api/bridgeApi';
 import BridgeTable from './BridgeTable';
 import { mapBid, mapCard } from '../utils/mapper';
@@ -23,9 +23,8 @@ export default function BidExercise({onBackToMenu}: {onBackToMenu: () => void}) 
   async function postProposition(proposition: string) {
     if (!deal || isBiddingDisabled) return;
 
-    // Désactiver les boutons de bid immédiatement
     setIsBiddingDisabled(true); 
-    setMessage(null); // Effacer le message précédent
+    setMessage(null);
 
     const res = await postBidding({
       Id: deal.id,
@@ -36,7 +35,7 @@ export default function BidExercise({onBackToMenu}: {onBackToMenu: () => void}) 
     if (!res.ok) {
       const err = await res.text();
       setMessage(`Erreur: ${err}`);
-      setIsBiddingDisabled(false); // Réactiver en cas d'échec d'API
+      setIsBiddingDisabled(false);
       return;
     }
 
@@ -44,29 +43,24 @@ export default function BidExercise({onBackToMenu}: {onBackToMenu: () => void}) 
 
     if (!data.correct) {
       setMessage('Proposition incorrecte.');
-      setIsBiddingDisabled(false); // Réactiver si la proposition est incorrecte
+      setIsBiddingDisabled(false);
       return;
     }
 
-    // Mise à jour de l'état des enchères avec les nouvelles enchères complètes
     setDeal(prevDeal => {
       if (!prevDeal) return null;
       return { ...prevDeal, bidsUpToPlayer: data.nextBids!.map(mapBid) };
     });
 
-    // Le message "Correct !" s'affiche brièvement, puis l'état de fin d'enchère est vérifié
     setMessage('Correct !');
 
-    // Délai avant de réactiver les boutons et de vérifier la fin de séquence
-    setTimeout(() => {
-      if (data.sequenceEnded) {
-        setMessage('Enchères terminées.');
-        setBiddingEnded(true); // Passer les enchères à l'état terminé
-      } else {
-        setMessage(null); // Effacer le message "Correct !" si la séquence continue
-      }
-      setIsBiddingDisabled(false); // Réactiver les boutons
-    }, 800); // Délai augmenté à 0.8s pour une meilleure lisibilité
+    if (data.sequenceEnded) {
+      setMessage('Enchères terminées.');
+      setBiddingEnded(true);
+    } else {
+      setMessage(null);
+    }
+    setIsBiddingDisabled(false);
   }
 
   useEffect(() => {
@@ -85,14 +79,15 @@ export default function BidExercise({onBackToMenu}: {onBackToMenu: () => void}) 
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
       <BridgeTable
-        initialEncheres={deal.bidsUpToPlayer}
+        encheres={deal.bidsUpToPlayer}
         donneur={deal.dealer}
         joueurActuelNom={deal.player}
         mainJoueurActuel={deal.playerHand}
         onBidSelect={postProposition}
         currentBid={currentHighestBid}
         biddingEnded={biddingEnded}
-      />
+        onCardSelect={undefined}
+        />
 
       {message && <p style={{color: message.includes('Erreur') ? 'red' : (message.includes('incorrecte') ? 'orange' : 'green'), marginTop: '10px'}}>{message}</p>}
 

@@ -1,7 +1,7 @@
 .hand-container {
   position: relative;
   margin: auto;
-  overflow: visible; /* Laissé à visible ici pour que les cartes puissent dépasser si on veut une animation par exemple, le clipping sera fait par bridge-table-container */
+  overflow: visible;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -9,8 +9,8 @@
 
 .hand-card {
   position: absolute;
-  width: 100px; /* Taille par défaut des cartes ajustée */
-  height: 145px; /* Hauteur par défaut des cartes ajustée */
+  width: 100px;
+  height: 145px;
   cursor: pointer;
   transition: transform 0.2s;
   transform-origin: bottom center;

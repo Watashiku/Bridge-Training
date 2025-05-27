@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { fetchLead, sendLead, LeadResponse } from '../api/bridgeApi'; // Assurez-vous que ces fonctions sont correctes
-import BridgeTable from './BridgeTable'; // Réutilisation de BridgeTable
+import { fetchLead, sendLead } from '../api/bridgeApi';
+import BridgeTable from './BridgeTable';
 import { mapBid, mapCard } from '../utils/mapper';
-import '../styles/LeadExercise.css'; // Import du fichier CSS spécifique pour LeadExercise
+import '../styles/LeadExercise.css';
+import { LeadResponse } from '../models/types';
 
 export default function LeadExercise({ onBackToMenu }: { onBackToMenu: () => void }) {
   const [deal, setDeal] = useState<LeadResponse | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const [isLeadDisabled, setIsLeadDisabled] = useState<boolean>(false); // Pour désactiver les clics pendant le traitement du lead
+  const [isLeadDisabled, setIsLeadDisabled] = useState<boolean>(false);
 
   const chargerNouvelleDonne = async () => {
     setMessage(null);
-    setIsLeadDisabled(false); // Réactiver les clics pour la nouvelle donne
+    setIsLeadDisabled(false);
     try {
-      let res = await fetchLead(); // Appel à l'API pour l'entame
+      let res = await fetchLead();
       res.mainJoueur = res.mainJoueur.map(mapCard);
-      res.encheres = res.encheres.map(mapBid); // Les enchères sont une séquence terminée
+      res.encheres = res.encheres.map(mapBid);
       setDeal(res);
     } catch (error) {
       setMessage(`Erreur lors du chargement de la donne : ${error instanceof Error ? error.message : 'inconnue'}`);
@@ -45,9 +46,6 @@ export default function LeadExercise({ onBackToMenu }: { onBackToMenu: () => voi
     } catch (error) {
       setMessage(`Erreur lors de l'envoi de l'entame : ${error instanceof Error ? error.message : 'inconnue'}`);
       console.error("Erreur sendLead:", error);
-    } finally {
-      setTimeout(() => {
-      }, 1500);
     }
   };
 
@@ -64,7 +62,7 @@ export default function LeadExercise({ onBackToMenu }: { onBackToMenu: () => voi
     <div className="lead-exercise-container">
       <h2>Entame - Joueur: {deal.joueur} | Contrat: {deal.contrat}</h2>
       <BridgeTable
-        initialEncheres={deal.encheres}
+        encheres={deal.encheres}
         donneur={deal.donneur}
         joueurActuelNom={deal.joueur}
         mainJoueurActuel={deal.mainJoueur}

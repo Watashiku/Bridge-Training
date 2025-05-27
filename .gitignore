@@ -1,6 +1,8 @@
-*/node_modules/
-*/.vs/
-*/.vscode/
+pdfs/
+
+**/.vs/
 **/bin/
 **/obj/
-pdfs/
+
+**/.vscode/
+**/node_modules/

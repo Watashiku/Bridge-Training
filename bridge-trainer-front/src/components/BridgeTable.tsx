@@ -30,7 +30,7 @@ const getBidsPerPlayer = (donneur, allBids) => {
 };
 
 export default function BridgeTable({
-  initialEncheres = [],
+  encheres = [],
   donneur,
   joueurActuelNom,
   mainJoueurActuel = [],
@@ -39,8 +39,8 @@ export default function BridgeTable({
   currentBid,
   biddingEnded = false
 }) {
-  const currentPlayer = getCurrentPlayer(donneur, initialEncheres);
-  const bidsPerPlayer = useMemo(() => getBidsPerPlayer(donneur, initialEncheres), [donneur, initialEncheres]);
+  const currentPlayer = getCurrentPlayer(donneur, encheres);
+  const bidsPerPlayer = useMemo(() => getBidsPerPlayer(donneur, encheres), [donneur, encheres]);
 
   const playerOrder = useMemo(() => {
     const playerIndex = joueurs.indexOf(joueurActuelNom);
@@ -57,7 +57,6 @@ export default function BridgeTable({
       left: orderedPlayers[3]
     };
   }, [joueurActuelNom]);
-
 
   return (
     <div className="bridge-table-container">
@@ -78,7 +77,7 @@ export default function BridgeTable({
           isDealer={donneur === playerOrder.left}
         />
         <div className="bidding-area">
-          <BidTable encheres={initialEncheres} donneur={donneur} />
+          {biddingEnded && <BidTable encheres={encheres} donneur={donneur} />}
           {!biddingEnded && currentPlayer === joueurActuelNom && (
             <div className="bid-box-wrapper">
               <BidBox currentBid={currentBid} onSelectBid={onBidSelect} />

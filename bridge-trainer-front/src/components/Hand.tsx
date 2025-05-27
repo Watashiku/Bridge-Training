@@ -15,7 +15,7 @@ const MAP_VALEUR: Record<string, string> = {
     '8': '8', '9': '9', '1': '10', 'J': 'jack', 'Q': 'queen',
     'K': 'king', 'A': 'ace'
 };
-const CARD_OVERLAP_FACTOR = 0.5; // Augmentation du chevauchement pour que les cartes soient plus proches
+const CARD_OVERLAP_FACTOR = 0.5;
 
 const toCardFilename = (carte: string): string =>
     `/cards/${MAP_VALEUR[carte.slice(0, -1)]}${MAP_COULEUR[carte.slice(-1)]}.svg`;
@@ -36,13 +36,12 @@ const Hand: React.FC<HandProps> = ({ cards, onCardClick }) => {
             : ORDRE_VALEURS.indexOf(a[0]) - ORDRE_VALEURS.indexOf(b[0])
     );
 
-    // Estimation des dimensions des cartes en fonction du CSS
-    const cardBaseWidth = 100; // Largeur par défaut ajustée
-    const cardBaseHeight = 145; // Hauteur par défaut ajustée
+    const cardBaseWidth = 100;
+    const cardBaseHeight = 145;
     const overlapAmount = cardBaseWidth * CARD_OVERLAP_FACTOR;
 
     const containerWidth = (total > 0 ? (total - 1) * overlapAmount + cardBaseWidth : 0);
-    const visibleCardHeight = cardBaseHeight * 0.4; // Afficher environ 40% du haut de la carte
+    const visibleCardHeight = cardBaseHeight * 0.4;
 
     return (
         <div className="hand-container" style={{
